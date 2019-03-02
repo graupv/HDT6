@@ -21,7 +21,10 @@ public class Yugi {
 //        System.out.println(System.getProperty("user.dir"));
 //          getcwd
         Scanner scan = new Scanner(System.in);
-        System.out.println("Que implementacion desea");
+        System.out.println("Que implementacion desea:\n" +
+                "1. HashMap\n" +
+                "2. TreeMap\n" +
+                "3. LinkedHashMap\n");
         MapFactory mp = new MapFactory();
         Map<String, String> cards = null;
         //  baraja completa
@@ -54,36 +57,70 @@ public class Yugi {
         }
         //  popular deck principal
         cards = setCards(cards);
-        System.out.println("This many cards: " + cards.size());
-//        switch (word){
-//            case "1":
-//                //  agregar a coleccion
-//                break;
-//
-//            case "2":
-//                //  get tipo
-//                break;
-//
-//            case "3":
-//                //  nombre, tipo y cantidad en coleccion
-//                break;
-//
-//            case "4":
-//                //  3 pero sorted
-//                break;
-//
-//            case "5":
-//                //  all the cards
-//                break;
-//
-//            case "6":
-//                //  all the cards but sorted.
-//                break;
-//
-//            default:
-//                System.out.println("a");
-//                break;
-//        }
+        String menu = "\n\nOpciones:\n\n1. Agregar a coleccion por nombre\n" +
+                "2. Mostrar tipo por nombre\n" +
+                "3. Mostrar detalles de coleccion\n" +
+                "4. Mostrar coleccion ordenada por tipo\n" +
+                "5. Mostrar detalles de todas las cartas\n" +
+                "6. Mostrar detalles de todas las cartas ordenadas por tipo";
+        System.out.println(menu);
+        word = scan.next();
+        String search, k, v;
+        while (word != "quit"){
+//            word = scan.next();
+            switch (word){
+                case "1":
+                    //  agregar a coleccion
+                    System.out.println("Ingresar nombre de la carta:");
+                    search = scan.next().toLowerCase();
+                    //  do the do
+                    try{
+                        v = cards.get(search);
+                        k = collection.put(search, v);
+                        System.out.println("Se agrego: " + k);
+                    } catch (Exception e){
+                        e.printStackTrace();
+                    }
+                    System.out.println(menu);
+                    word = scan.next();
+                    break;
+
+                case "2":
+                    //  get tipo
+                    word = scan.next();
+                    break;
+
+                case "3":
+                    //  nombre, tipo y cantidad en coleccion
+                    word = scan.next();
+                    break;
+
+                case "4":
+                    //  3 pero sorted
+                    word = scan.next();
+                    break;
+
+                case "5":
+                    //  all the cards
+                    word = scan.next();
+                    break;
+
+                case "6":
+                    //  all the cards but sorted.
+                    word = scan.next();
+                    break;
+
+                case "quit":
+                    //  c ya
+                    word = "quit";
+                    break;
+
+                default:
+                    System.out.println("a");
+                    break;
+            }
+        }
+
 
 
     }
