@@ -143,8 +143,32 @@ public class Yugi {
                     break;
 
                 case "4":
-                    //  3 pero sorted
+                    //  3 pero mostrar en un orden
+                    //  no dice ordenar el map sino que mostrar en orden.
+                    //
+                    String con;
+                    for (int i=0; i < 3; i++){
+                        if (i == 0){
+                            con = "hechizo";
+                        } else if (i == 1){
+                            con = "monstruo";
+                        } else {
+                            con = "trampa";
+                        }
+                        for (Map.Entry<Carta, Integer> m: collection.entrySet()){
+                            //  detalles de coleccion
+                            car = m.getKey();
+                            if (car.getTipo().equals(con)){
+                                System.out.println(car.getNombre() + " | " + car.getTipo() + " | " + String.valueOf(m.getValue()));
+                            }
+
+
+                        }
+                    }
+
+
                     System.out.println(menu);
+
                     word = scan.next();
                     scan.nextLine();
                     break;
@@ -162,7 +186,23 @@ public class Yugi {
                     break;
 
                 case "6":
-                    //  all the cards but sorted.
+                    //  all the cards but in order.
+                    for (int i=0; i < 3; i++){
+                        if (i == 0){
+                            con = "hechizo";
+                        } else if (i == 1){
+                            con = "monstruo";
+                        } else {
+                            con = "trampa";
+                        }
+                        for (Map.Entry<String, String> m: cards.entrySet()){
+                            //  detalles de coleccion
+                            if (m.getValue().equals(con)){
+                                System.out.println(m.getKey() + " | " + m.getValue());
+                            }
+
+                        }
+                    }
                     System.out.println(menu);
                     word = scan.next();
                     scan.nextLine();
@@ -186,23 +226,8 @@ public class Yugi {
 
     }
 
-    private static Map sortByType(Map map) {
-        List list = new LinkedList(map.entrySet());
-        // Defined Custom Comparator here
-        Collections.sort(list, new Comparator() {
-            public int compare(Object o1, Object o2) {
-                return ((Comparable) ((Map.Entry) (o1)).getValue())
-                        .compareTo(((Map.Entry) (o2)).getValue());
-            }
-        });
 
-        Map sortedHashMap = new LinkedHashMap();
-        for (Iterator it = list.iterator(); it.hasNext();) {
-            Map.Entry entry = (Map.Entry) it.next();
-            sortedHashMap.put(entry.getKey(), entry.getValue());
-        }
-        return sortedHashMap;
-    }
+
 
     static Map<String, String> setCards(Map<String, String> deck) throws IOException {
         //  Luego de escoger la implementacion usamos el algoritmo polimorfico Map.Put()
@@ -225,9 +250,9 @@ public class Yugi {
         File file;
         String linea, datos = "";
         try{
-            if((new File(TEST_PATH_DATOS)).exists()){
+            if((new File(PATH_DATOS)).exists()){
                 //verificamos que el archivo exista
-                reader = new BufferedReader(new FileReader(TEST_PATH_DATOS));
+                reader = new BufferedReader(new FileReader(PATH_DATOS));
 
                 while((linea = reader.readLine()) != null){
                     //concatenamos con un tabular la lectura de la linea,

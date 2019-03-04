@@ -1,6 +1,8 @@
 package Main;
 
-public final class Carta implements Comparable<Carta> {
+import java.util.Comparator;
+
+public final class Carta implements Comparable<Carta>  {
     //  clase inmutable
     private final String nombre;
     private final String tipo;
@@ -32,6 +34,8 @@ public final class Carta implements Comparable<Carta> {
         int b = (int)this.nombre.charAt(this.nombre.length() - 1);
         return a * b  + this.nombre.length() + this.tipo.length();
     }
+
+
 
     public int compareTo(Carta c) {
             return this.nombre.compareTo(c.nombre);
