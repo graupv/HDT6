@@ -12,14 +12,28 @@ public class MapFactory {
         return new HashMap<String, String>();
     }
 
+    HashMap<Carta, Integer> get_col_hash(){
+
+        return new HashMap<>();
+    }
+
     LinkedHashMap<String, String> get_linked(){
-//        thing = new LinkedHashMap<>();
-//        return (LinkedHashMap<String, String>) thing;
+
         return new LinkedHashMap<String, String>();
+    }
+
+    LinkedHashMap<Carta, Integer> get_col_linked(){
+
+        return new LinkedHashMap<Carta, Integer>();
     }
 
     TreeMap<String, String> get_tree(){
 
         return new TreeMap<String, String>();
+    }
+
+    TreeMap<Carta, Integer> get_col_tree(){
+
+        return new TreeMap<Carta, Integer>();
     }
 }

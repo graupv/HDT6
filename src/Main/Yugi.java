@@ -5,9 +5,7 @@ import java.io.File;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.FileNotFoundException;
-import java.util.Map;
-import java.util.Scanner;
-import java.util.StringTokenizer;
+import java.util.*;
 
 
 public class Yugi {
@@ -15,6 +13,13 @@ public class Yugi {
     final static String DELIMITADOR = "\t\n|";
     final static String PATH_DATOS = "cards_desc.txt";
     final static String TEST_PATH_DATOS = "cards_desc_test.txt";
+    static String menu = "\nOpciones:\n\n1. Agregar a coleccion por nombre\n" +
+            "2. Mostrar tipo por nombre\n" +
+            "3. Mostrar detalles de coleccion\n" +
+            "4. Mostrar coleccion ordenada por tipo\n" +
+            "5. Mostrar detalles de todas las cartas\n" +
+            "6. Mostrar detalles de todas las cartas ordenadas por tipo\n" +
+            "7. quit";
 
     public static void main(String[] args) throws IOException{
 
@@ -28,27 +33,27 @@ public class Yugi {
         MapFactory mp = new MapFactory();
         Map<String, String> cards = null;
         //  baraja completa
-        Map<String, String> collection = null;
-        //  coleccion de usuario
+        Map<Carta, Integer> collection = null;
+        //  coleccion de usuario {Carta, cantidad}
 
         String word = scan.next();
         switch (word){
             case "1":
                 //  hashmap
                 cards = mp.get_hash();
-                collection = mp.get_hash();
+                collection = mp.get_col_hash();
                 break;
 
             case "2":
                 //  tree
                 cards = mp.get_tree();
-                collection = mp.get_tree();
+                collection = mp.get_col_tree();
                 break;
 
             case "3":
                 //  linked
                 cards = mp.get_linked();
-                collection = mp.get_linked();
+                collection = mp.get_col_linked();
                 break;
 
             default:
@@ -57,14 +62,10 @@ public class Yugi {
         }
         //  popular deck principal
         cards = setCards(cards);
-        String menu = "\n\nOpciones:\n\n1. Agregar a coleccion por nombre\n" +
-                "2. Mostrar tipo por nombre\n" +
-                "3. Mostrar detalles de coleccion\n" +
-                "4. Mostrar coleccion ordenada por tipo\n" +
-                "5. Mostrar detalles de todas las cartas\n" +
-                "6. Mostrar detalles de todas las cartas ordenadas por tipo";
+
         System.out.println(menu);
         word = scan.next();
+        scan.nextLine();
         String search, k, v;
         while (word != "quit"){
 //            word = scan.next();
@@ -72,12 +73,53 @@ public class Yugi {
                 case "1":
                     //  agregar a coleccion
                     System.out.println("Ingresar nombre de la carta:");
-                    search = scan.next().toLowerCase();
+                    search = scan.nextLine().toLowerCase();
                     //  do the do
                     try{
-                        v = cards.get(search);
-                        k = collection.put(search, v);
-                        System.out.println("Se agrego: " + k);
+                        if (cards.containsKey(search)) {
+                            v = cards.get(search);
+                            Carta car = Carta.new_inst(search, v);
+                            System.out.println(car.hashCode());
+                            int cant;
+                            if (collection.containsKey(car)){
+                                System.out.println("Ya existe en coleccion entonces sumamos 1");
+                                cant = collection.get(car) + 1;
+                                System.out.println(cant);
+                                collection.put(car, cant);
+                            } else {
+                                System.out.println("Not the same card");
+                                collection.put(car, 1);
+                            }
+
+
+                            System.out.println("Se agrego: " + search + " | " + v);
+                            System.out.println(collection);
+                        } else {
+                            System.out.println("No encontramos esa carta.\n");
+                        }
+
+                    } catch (Exception e){
+                        e.printStackTrace();
+                    }
+                    System.out.println(menu);
+                    word = scan.next();
+                    scan.nextLine();
+                    break;
+
+                case "2":
+                    //  get tipo
+                    System.out.println("Ingresar nombre de la carta:");
+                    search = scan.nextLine().toLowerCase();
+                    //  do the do
+                    try{
+                        if (cards.containsKey(search)) {
+                            v = cards.get(search);
+                            System.out.println(search.toUpperCase() + " es tipo: " + v.toUpperCase());
+//                            System.out.println(collection);
+                        } else {
+                            System.out.println("No encontramos esa carta.\n");
+                        }
+
                     } catch (Exception e){
                         e.printStackTrace();
                     }
@@ -85,38 +127,57 @@ public class Yugi {
                     word = scan.next();
                     break;
 
-                case "2":
-                    //  get tipo
-                    word = scan.next();
-                    break;
-
                 case "3":
                     //  nombre, tipo y cantidad en coleccion
+                    Carta car;
+                    for (Map.Entry<Carta, Integer> m: collection.entrySet()){
+                        //  detalles de coleccion
+                        car = m.getKey();
+                        System.out.println(car.getNombre() + " | " + car.getTipo() + " | " + String.valueOf(m.getValue()));
+
+                    }
+
+                    System.out.println(menu);
                     word = scan.next();
+                    scan.nextLine();
                     break;
 
                 case "4":
                     //  3 pero sorted
+                    System.out.println(menu);
                     word = scan.next();
+                    scan.nextLine();
                     break;
 
                 case "5":
                     //  all the cards
+                    for (Map.Entry<String, String> m: cards.entrySet()){
+                        //  16 mil prints.
+                        System.out.println("Nombre: " + m.getKey());
+                        System.out.println("Tipo: " + m.getValue() + "\n");
+                    }
+                    System.out.println(menu);
                     word = scan.next();
+                    scan.nextLine();
                     break;
 
                 case "6":
                     //  all the cards but sorted.
+                    System.out.println(menu);
                     word = scan.next();
+                    scan.nextLine();
                     break;
 
-                case "quit":
+                case "7":
                     //  c ya
                     word = "quit";
                     break;
 
                 default:
-                    System.out.println("a");
+                    System.out.println("Opcion invalida\n");
+                    System.out.println(menu);
+                    word = scan.next();
+                    scan.nextLine();
                     break;
             }
         }
@@ -125,7 +186,27 @@ public class Yugi {
 
     }
 
+    private static Map sortByType(Map map) {
+        List list = new LinkedList(map.entrySet());
+        // Defined Custom Comparator here
+        Collections.sort(list, new Comparator() {
+            public int compare(Object o1, Object o2) {
+                return ((Comparable) ((Map.Entry) (o1)).getValue())
+                        .compareTo(((Map.Entry) (o2)).getValue());
+            }
+        });
+
+        Map sortedHashMap = new LinkedHashMap();
+        for (Iterator it = list.iterator(); it.hasNext();) {
+            Map.Entry entry = (Map.Entry) it.next();
+            sortedHashMap.put(entry.getKey(), entry.getValue());
+        }
+        return sortedHashMap;
+    }
+
     static Map<String, String> setCards(Map<String, String> deck) throws IOException {
+        //  Luego de escoger la implementacion usamos el algoritmo polimorfico Map.Put()
+        //  y asi llenar nuestro map de todas las cartas.
         StringTokenizer st = new StringTokenizer(getTokens(), DELIMITADOR);
         String k;
         String v;
@@ -144,10 +225,9 @@ public class Yugi {
         File file;
         String linea, datos = "";
         try{
-            if((new File(PATH_DATOS)).exists()){ //verificamos que el archivo exista
-
-
-                reader = new BufferedReader(new FileReader(PATH_DATOS));
+            if((new File(TEST_PATH_DATOS)).exists()){
+                //verificamos que el archivo exista
+                reader = new BufferedReader(new FileReader(TEST_PATH_DATOS));
 
                 while((linea = reader.readLine()) != null){
                     //concatenamos con un tabular la lectura de la linea,
@@ -158,7 +238,7 @@ public class Yugi {
                 reader.close();
             }
             else{
-                System.out.println("El archivo ingresado no fue encontrado.");
+                System.out.println("El archivo ingresado no fue encontrado :(");
             }
 
         }
