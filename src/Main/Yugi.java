@@ -175,11 +175,7 @@ public class Yugi {
 
                 case "5":
                     //  all the cards
-                    for (Map.Entry<String, String> m: cards.entrySet()){
-                        //  16 mil prints.
-                        System.out.println("Nombre: " + m.getKey());
-                        System.out.println("Tipo: " + m.getValue() + "\n");
-                    }
+                    allthecards(cards);
                     System.out.println(menu);
                     word = scan.next();
                     scan.nextLine();
@@ -222,12 +218,17 @@ public class Yugi {
             }
         }
 
-
-
     }
 
 
-
+    static void allthecards(Map<String, String> cards){
+        //  metodo estatico de main para que lo detecte el profiler
+        for (Map.Entry<String, String> m: cards.entrySet()){
+            //  16 mil prints.
+            System.out.println("Nombre: " + m.getKey());
+            System.out.println("Tipo: " + m.getValue() + "\n");
+        }
+    }
 
     static Map<String, String> setCards(Map<String, String> deck) throws IOException {
         //  Luego de escoger la implementacion usamos el algoritmo polimorfico Map.Put()
