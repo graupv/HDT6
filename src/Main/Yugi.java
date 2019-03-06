@@ -146,26 +146,8 @@ public class Yugi {
                     //  3 pero mostrar en un orden
                     //  no dice ordenar el map sino que mostrar en orden.
                     //
-                    String con;
-                    for (int i=0; i < 3; i++){
-                        if (i == 0){
-                            con = "hechizo";
-                        } else if (i == 1){
-                            con = "monstruo";
-                        } else {
-                            con = "trampa";
-                        }
-                        for (Map.Entry<Carta, Integer> m: collection.entrySet()){
-                            //  detalles de coleccion
-                            car = m.getKey();
-                            if (car.getTipo().equals(con)){
-                                System.out.println(car.getNombre() + " | " + car.getTipo() + " | " + String.valueOf(m.getValue()));
-                            }
 
-
-                        }
-                    }
-
+                    allTheCol(collection);
 
                     System.out.println(menu);
 
@@ -175,7 +157,7 @@ public class Yugi {
 
                 case "5":
                     //  all the cards
-                    allthecards(cards);
+                    allThe(cards);
                     System.out.println(menu);
                     word = scan.next();
                     scan.nextLine();
@@ -183,22 +165,7 @@ public class Yugi {
 
                 case "6":
                     //  all the cards but in order.
-                    for (int i=0; i < 3; i++){
-                        if (i == 0){
-                            con = "hechizo";
-                        } else if (i == 1){
-                            con = "monstruo";
-                        } else {
-                            con = "trampa";
-                        }
-                        for (Map.Entry<String, String> m: cards.entrySet()){
-                            //  detalles de coleccion
-                            if (m.getValue().equals(con)){
-                                System.out.println(m.getKey() + " | " + m.getValue());
-                            }
-
-                        }
-                    }
+                    allTheSorted(cards);
                     System.out.println(menu);
                     word = scan.next();
                     scan.nextLine();
@@ -220,8 +187,51 @@ public class Yugi {
 
     }
 
+    static void allTheCol(Map<Carta, Integer> collection){
+        String con;
+        Carta car;
+        for (int i=0; i < 3; i++){
+            if (i == 0){
+                con = "hechizo";
+            } else if (i == 1){
+                con = "monstruo";
+            } else {
+                con = "trampa";
+            }
+            for (Map.Entry<Carta, Integer> m: collection.entrySet()){
+                //  detalles de coleccion
+                car = m.getKey();
+                if (car.getTipo().equals(con)){
+                    System.out.println(car.getNombre() + " | " + car.getTipo() + " | " + String.valueOf(m.getValue()));
+                }
 
-    static void allthecards(Map<String, String> cards){
+
+            }
+        }
+    }
+
+    static void allTheSorted(Map<String, String> cards){
+        String con;
+        for (int i=0; i < 3; i++){
+            if (i == 0){
+                con = "hechizo";
+            } else if (i == 1){
+                con = "monstruo";
+            } else {
+                con = "trampa";
+            }
+            for (Map.Entry<String, String> m: cards.entrySet()){
+                //  detalles de coleccion
+                if (m.getValue().equals(con)){
+                    System.out.println(m.getKey() + " | " + m.getValue());
+                }
+
+            }
+        }
+    }
+
+
+    static void allThe(Map<String, String> cards){
         //  metodo estatico de main para que lo detecte el profiler
         for (Map.Entry<String, String> m: cards.entrySet()){
             //  16 mil prints.
